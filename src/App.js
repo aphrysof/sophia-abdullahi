@@ -1,49 +1,21 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import {HomePageLayout} from './layouts/index'
+import { useQuery } from "@apollo/client";
+import { CARD_PRODUCTS } from "./services";
 
-const PRODUCTS = gql`
-  query getItems {
-    categories {
-      name
-      products {
-        id
-        name
-        inStock
-        gallery
-        description
-        category
-        attributes {
-          id
-          name
-          type
-          items {
-            displayValue
-            value
-            id
-          }
-        }
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-        brand
-      }
-    }
-  }
-`;
 
 function App() {
-  const { loading, error, data } = useQuery(PRODUCTS);
+  const { loading, error, data } = useQuery(CARD_PRODUCTS);
   console.log(data)
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
-
+  
   return (
     <div className="App">
-      
+      <HomePageLayout  
+      data = {data?.category?.products}
+      prices = {data?.category?.products?.prices}
+      />
     </div>
   );
 }

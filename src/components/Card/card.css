@@ -1,0 +1,33 @@
+.card--container {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.card--container:hover {
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+}
+.card--container:hover::after {
+  content: "hello";
+}
+.content--container {
+  padding: 10px;
+}
+.content--container img {
+  height: 230px;
+  width: 100%;
+}
+.product--desc {
+  margin: 10px 0;
+}
+.product--name {
+  font-size: 18px;
+  color: #1d1f22;
+}
+.product--price {
+  font-size: 14px;
+  font-weight: 600;
+}
