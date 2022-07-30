@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import "./home.css";
+import "./style.css";
 import { Navbar, Card } from "../../components";
 
-export class Home extends Component {
+export class ClothesLayoutPage extends Component {
   render() {
     return (
       <div className="container">
         <Navbar />
-        <h1>All</h1>
+        <h1>Clothes</h1>
         <div className="cards--container">
           <Card data={this.props.data} />
         </div>
@@ -16,4 +16,4 @@ export class Home extends Component {
   }
 }
 
-export default Home;
+export default ClothesLayoutPage;

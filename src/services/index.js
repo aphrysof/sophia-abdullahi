@@ -52,3 +52,30 @@ export const PRODUCTS = gql`
     }
   }
 `;
+
+export const NAVIGATION_LINKS = gql`
+  query navigation {
+    categories {
+      name
+    }
+  }
+`;
+
+export const CATEGORIES = gql`
+  query Categories {
+    categories {
+      products {
+        id
+        name
+        gallery
+        inStock
+        prices {
+          currency {
+            symbol
+          }
+          amount
+        }
+      }
+    }
+  }
+`;

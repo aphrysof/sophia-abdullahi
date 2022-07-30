@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./card.css";
+import Cart from '../../assets/Vector.png'
+
 export class Card extends Component {
   render() {
     return (
@@ -8,6 +10,9 @@ export class Card extends Component {
           <div className="card--container" key={data.id}>
             <div className="content--container">
               <img src={data?.gallery[0]} alt="product_image" />
+              <div className="add_to_cart">
+                <button onClick={() => {console.log('clicked')}}><img src= {Cart}  alt = "cart"/></button>
+              </div>
               <div className="product--desc">
                 <p className="product--name">{data?.name}</p>
                 <p className="product--price">
