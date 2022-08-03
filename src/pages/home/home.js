@@ -1,14 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { HomePageLayout } from "../../layouts";
+import { useQuery } from "@apollo/client";
+import { CATEGORIES } from "../../services/data";
 
-export class home extends Component {
-  render() {
-    return (
-      <>
-        <HomePageLayout data = {this.props.data} />
-      </>
-    );
-  }
-}
+const Home = () => {
+  const { data } = useQuery(CATEGORIES);
 
-export default home;
+  return (
+    <>
+      <HomePageLayout data = {data?.categories[0].products}/>
+    </>
+  );
+};
+
+export default Home;

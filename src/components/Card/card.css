@@ -31,7 +31,7 @@
   font-weight: 600;
 }
 .add_to_cart {
-  /* display: none; */
+  display: none;
 }
 .add_to_cart img {
   height: 20px;
@@ -47,8 +47,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+
 }
-.card--container:hover > .add_to_cart {
+.card--container:hover > .content--container > .add_to_cart {
   display: block;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import {BrowserRouter} from 'react-router-dom'
 //first we import the symbols that we need from the apollo client
 // import { ApolloClient, InMemoryCache, ApolloProvider, gql } from 'apollo/client';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
@@ -14,8 +15,9 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ApolloProvider>
-  
 );
 

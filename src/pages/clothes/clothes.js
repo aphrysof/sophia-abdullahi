@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import { ClothesPageLayout } from "../../layouts";
+import { useQuery } from "@apollo/client";
+import { CATEGORIES } from "../../services/data";
 
-export class clothes extends Component {
-  render() {
-    return (
-      <>
-      <ClothesPageLayout data = {this.props.data} />
-      </>
-    )
-  }
-}
+const Clothes = () => {
+  const { data } = useQuery(CATEGORIES);
+  return (
+    <>
+      <ClothesPageLayout data={data?.categories[1].products} />
+    </>
+  );
+};
 
-export default clothes;
+export default Clothes;

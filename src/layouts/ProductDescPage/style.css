@@ -1,0 +1,116 @@
+.container--pdp {
+  display: flex;
+  max-width: 100%;
+  width: 100%;
+  padding: 0 50px;
+}
+/* .gallery--images {
+    display: grid;
+    grid-template-columns: 1fr;
+} */
+.description--container {
+  max-width: 1000px;
+  height: 500px;
+  width: 100%;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.img--container {
+  width: 600px;
+}
+.img--container img {
+  width: 520px;
+  height: 450px;
+}
+/* .product--description {
+  position: relative;
+  left: 20px;
+} */
+.product--description h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.product--description p {
+  font-size: 24px;
+  margin-top: 4px;
+}
+.attribute--name {
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.size--section {
+  /* margin: 14px 0; */
+  display: flex;
+  gap: 10px;
+}
+.size--section h5 {
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.button--sizes button {
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #1d1f22;
+  width: 60px;
+  height: 45px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.button--sizes button:hover {
+  background-color: #1d1f22;
+  border: 1px solid #1d1f22;
+  color: white;
+}
+.price--section {
+  margin: 10px 0;
+}
+.price--section > h5 {
+  font-weight: 800;
+}
+.price--section > p {
+  font-size: 14px;
+  font-weight: 800;
+}
+.addto_cart_btn {
+}
+.addto_cart_btn button {
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  background-color: #5ece7b;
+  border: 1px solid #5ece7b;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.product_details {
+  width: 300px;
+}
+
+.product_details p {
+  font-size: 16px;
+  margin: 20px 0;
+  text-align: justify;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+.gallery--images {
+  box-shadow: 0px 4px 35px 0px #a8acb030;
+  cursor: pointer;
+  margin: 5px 0;
+}
+.product--images {
+  height: 90px;
+  width: 90px;
+}

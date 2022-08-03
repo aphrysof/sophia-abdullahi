@@ -79,3 +79,31 @@ export const CATEGORIES = gql`
     }
   }
 `;
+
+export const PRODUCT_DETAILS = gql`
+  query productDetails($id: String!) {
+    product(id: $id) {
+      name
+      inStock
+      brand
+      description
+      gallery
+      prices {
+        currency {
+          symbol
+        }
+        amount
+      }
+      attributes {
+        id
+        name
+        type
+        items {
+          value
+          displayValue
+          id
+        }
+      }
+    }
+  }
+`;

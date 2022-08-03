@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import "./home.css";
-import { Navbar, Card } from "../../components";
+import { Card } from "../../components";
 
-export class Home extends Component {
-  render() {
-    return (
-      <div className="container">
-        <Navbar />
-        <h1>All</h1>
-        <div className="cards--container">
-          <Card data={this.props.data} />
-        </div>
+const Home = (props) => {
+  return (
+    <div className="container">
+      <h1>All</h1>
+      <div className="cards--container">
+        <Card data = {props.data}/>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Home;
