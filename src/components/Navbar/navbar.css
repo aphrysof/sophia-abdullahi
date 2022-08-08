@@ -24,12 +24,37 @@ a:active {
   border-bottom: 1px solid #5ece7b;
   padding-bottom: 10px;
 }
+.currency--cart {
+  display: flex;
+}
 .currency--cart select {
   margin-right: 20px;
 }
-.currency--cart button {
+.shopping--cart {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+.shopping--cart button {
   background: none;
   border: none;
   cursor: pointer;
   margin-right: 10px;
+}
+.cart--button img {
+  height: 30px;
+}
+
+.badge {
+  position: absolute;
+  background: #5ece7b;
+  bottom: 20px;
+  left: 20px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }

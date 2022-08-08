@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ProductDescriptionLayout } from "../../layouts";
 import { useQuery } from "@apollo/client";
 import { PRODUCT_DETAILS } from "../../services/data";
@@ -9,12 +9,12 @@ const Index = () => {
   // Then set that id as the variables object
 
   const { id } = useParams();
-  const { data, loading, error } = useQuery(PRODUCT_DETAILS, {
-    variables: { id },
+  
+  const { data } = useQuery(PRODUCT_DETAILS, {
+    variables: {id: id },
   });
 
-  console.log(data?.product);
-
+ 
   return (
     <>
       <ProductDescriptionLayout

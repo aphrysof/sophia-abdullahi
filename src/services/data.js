@@ -83,6 +83,7 @@ export const CATEGORIES = gql`
 export const PRODUCT_DETAILS = gql`
   query productDetails($id: String!) {
     product(id: $id) {
+      id
       name
       inStock
       brand

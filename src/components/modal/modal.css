@@ -1,0 +1,67 @@
+#portal .modal--container {
+  position: absolute;
+  top: 78px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #39374838;
+  height: 1273.69px;
+}
+.modal {
+  z-index: 1;
+  width: 375px;
+  height: 500px;
+  background: white;
+  position: absolute;
+  right: 50px;
+  top: 20px;
+}
+.product--container {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 5px 0;
+}
+.header {
+  margin: 5px 0;
+}
+.productItem--container {
+  border: 1px solid #39374838;
+  width: 350px;
+  height: 180px;
+  display: flex;
+  justify-content: space-between;
+}
+.image img {
+  height: 150px;
+}
+.total--amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.buttons--container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.buttons--container button {
+  width: 150px;
+  padding: 10px;
+  cursor: pointer;
+}
+.buttons--container > .view--bag {
+  background-color: white;
+  border: 1px solid #1d1f22;
+  color: #1d1f22;
+}
+.checkout {
+  background-color: #5ece7b;
+  border: 1px solid #5ece7b;
+  color: white;
+}
+.button--sizes > button {
+    width: 20px;
+    height: 20px;
+}

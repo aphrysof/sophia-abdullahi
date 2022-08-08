@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./style.css";
+import { AppContext } from "../../context";
+import { useParams } from "react-router-dom";
 
 const Index = (props) => {
   const [attributes, setAttributes] = useState([]);
+  const { addItem } = useContext(AppContext);
 
   useEffect(() => {
     setAttributes(props.attributes);
@@ -11,6 +14,9 @@ const Index = (props) => {
 
   const images = props.data?.gallery;
   // console.log(images);
+
+  //onClick function to set values of the product in localstorage.
+ const product = props.data
 
   return (
     <>
@@ -65,7 +71,7 @@ const Index = (props) => {
               </p>
             </div>
             <div className="addto_cart_btn">
-              <button>ADD TO CART</button>
+              <button onClick={() => addItem(product)}>ADD TO CART</button>
             </div>
             <div className="product_details">
               <p>{props.data?.description.replace(/<\/?[^>]+(>|$)/g, "")}</p>

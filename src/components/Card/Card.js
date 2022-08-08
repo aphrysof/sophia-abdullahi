@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./card.css";
 import Cart from "../../assets/Vector.png";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { AppContext } from "../../context";
 
 const Card = (props) => {
   //Setting state for product
   const [products, setProducts] = useState([]);
 
+  const { addItem } = useContext(AppContext);
   //SetProducts to props.data so that we can map through it using the products variable.
   useEffect(() => {
     setProducts(props.data);
@@ -17,27 +19,21 @@ const Card = (props) => {
   const navigate = useNavigate();
 
   //Using URLparam so as to navigate to the pdp as per the Id of the product.
-  // const { id } = useParams();
-  // console.log(id);
+  
+  
   return (
     <>
       {products &&
         products.map((product) => (
-          <div
-            className="card--container"
-            key={product.id}
-            onClick={() => {
-              navigate(`/product/${product.id}`);
-            }}
-          >
+          <div className="card--container" key={product.id}>
             <div className="content--container">
-              <img src={product.gallery[0]} alt="product_image" />
+              <img
+                src={product.gallery[0]}
+                alt="product_image"
+                onClick={() => navigate(`/product/${product.id}`)}
+              />
               <div className="add_to_cart">
-                <button
-                  onClick={() => {
-                    console.log("clicked");
-                  }}
-                >
+                <button onClick={() => {console.log('clicked')}}>
                   <img src={Cart} alt="cart" />
                 </button>
               </div>
