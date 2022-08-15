@@ -114,3 +114,6 @@
   height: 90px;
   width: 90px;
 }
+.button--sizes:focus {
+  border: 1px solid black;
+}

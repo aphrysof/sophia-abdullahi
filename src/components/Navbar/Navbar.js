@@ -6,15 +6,15 @@ import { NavLink } from "react-router-dom";
 import { AppContext } from "../../context";
 import { Modal } from "../index";
 
-const Navbar = () => {
-  const [notifications, setNotifications] = useState(0);
+const Navbar = ({ data }) => {
+  const { getCartTotalItems, changeCurrency } =
+    useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
 
-  const {getCartTotal } = useContext(AppContext);
   //re-render the notifications everytime the cart array changes
-  useEffect(() => {
-    setNotifications(getCartTotal);
-  }, [getCartTotal]);
+  // useEffect(() => {
+  //   setNotifications(getCartTotal);
+  // }, [getCartTotal]);
 
   const openModal = () => {
     setShowModal(!showModal);
@@ -34,20 +34,22 @@ const Navbar = () => {
           <img src={scandiweb} alt="logo" />
         </div>
         <div className="currency--cart">
-          <select>
-            <option value="">USD</option>
-            <option value="">EUR</option>
-            <option value="">JYN</option>
+          <select onChange={(e) => changeCurrency(e)} defaultValue={"$"}>
+            <option value="$">$ USD</option>
+            <option value="£">£ GBP</option>
+            <option value="A$">A$ AUD</option>
+            <option value="¥">¥ JPY</option>
+            <option value="₽">₽ RUB</option>
           </select>
           <div className="shopping--cart">
             <div className="cart--button" onClick={openModal}>
               <img src={carts} alt="shopping cart" />
             </div>
-            <div className="badge">{notifications}</div>
+            <div className="badge">{getCartTotalItems()}</div>
           </div>
         </div>
       </nav>
-      { showModal ? <Modal setShowModal={setShowModal} /> : null}
+      {showModal ? <Modal setShowModal={setShowModal} /> : null}
     </header>
   );
 };

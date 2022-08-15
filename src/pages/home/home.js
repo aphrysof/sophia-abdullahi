@@ -8,9 +8,10 @@ const Home = () => {
 
   return (
     <>
-      <HomePageLayout data = {data?.categories[0].products}/>
+      <HomePageLayout data={data?.categories[0].products} />;
     </>
   );
+ 
 };
 
 export default Home;

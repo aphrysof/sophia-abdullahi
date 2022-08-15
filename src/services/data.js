@@ -108,3 +108,26 @@ export const PRODUCT_DETAILS = gql`
     }
   }
 `;
+export const PRICES = gql`
+  query Prices {
+    currencies {
+      label
+      symbol
+    }
+  }
+`;
+
+export const PRICING = gql`
+  query cardProducts {
+    category {
+      products {
+        prices {
+          currency {
+            symbol
+          }
+          amount
+        }
+      }
+    }
+  }
+`;

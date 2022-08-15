@@ -2,22 +2,44 @@ import React, { useState, useContext, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./modal.css";
 import { AppContext } from "../../context";
+import { Link } from "react-router-dom";
 
 const Modal = ({ setShowModal }) => {
-  const { cart, getCartTotal } = useContext(AppContext);
+  const {
+    cart,
+    price,
+    toogleItemQuantity,
+    totalPrice,
+    getCartTotalItems,
+    getTotalPrice,
+  } = useContext(AppContext);
 
   //set state for cartItems
   const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
 
   useEffect(() => {
-    setCartItems(cart);
+    if (cart) {
+      const products = cart.map((product) => {
+        if (product.attributes) {
+          const attribute = product.attributes.find(
+            (attr) => attr.id === "Color"
+          );
+          return {
+            ...product,
+            colors: attribute ? attribute.items : [],
+          };
+        } else {
+          return {
+            ...product,
+            colors: [],
+          };
+        }
+      });
+      setCartItems(products);
+    } else {
+      setCartItems([]);
+    }
   }, [cart]);
-
-  // useEffect(() => {
-  //   setAttributes(cart.attributes);
-  //   console.log(cart.attributes);
-  // }, [cart.attributes]);
 
   // close the modal when clicking outside the modal.
   const modalRef = useRef();
@@ -33,10 +55,24 @@ const Modal = ({ setShowModal }) => {
           <div className="product--container">
             <div className="header">
               <h6>
-                My Bag<span> {getCartTotal()} items</span>
+                My Bag<span> {getCartTotalItems()} items</span>
               </h6>
             </div>
-            {cartItems &&
+            {cartItems.length < 1 && (
+              <div className="cart--header">
+                <p>Your shopping cart is empty</p>
+                <Link to="/">
+                  <button
+                    className="continue--shopping"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Continue Shopping
+                  </button>
+                </Link>
+              </div>
+            )}
+
+            {cartItems.length >= 1 &&
               cartItems.map((cartItem) => (
                 <div className="productItem--container" key={cartItem.id}>
                   <div className="item--details">
@@ -46,30 +82,30 @@ const Modal = ({ setShowModal }) => {
                         <p>{cartItem?.name}</p>
                         <h6>
                           {" "}
-                          {cartItem?.prices[0]?.currency?.symbol}{" "}
-                          {cartItem?.prices[0]?.amount}
+                          {cartItem.prices[0].currency?.symbol}{" "}
+                          {cartItem.prices[0].amount}
                         </h6>
                       </div>
                       {cartItem?.attributes?.map((attribute) => (
                         <div key={attribute?.id}>
                           <h6 className="attribute--name">{attribute?.name}</h6>
-                          <div className="size--section">
-                            {cartItem?.attribute?.items?.map((item) => (
+                          <div className="attribute--section">
+                            {cartItem.colors.map((item) => (
                               <div className="button--sizes" key={item?.id}>
                                 <button
-                                style={{
-                                  backgroundColor:
-                                    attribute?.type === "swatch"
-                                      ? "item?.value"
-                                      : null,
-                                  border:
-                                    attribute?.type === "swatch"
-                                      ? "none"
-                                      : null,
-                                }}
+                                  style={{
+                                    backgroundColor:
+                                      cartItem.attributes?.type === "swatch"
+                                        ? item?.value
+                                        : null,
+                                    border:
+                                      cartItem.attributes?.type === "swatch"
+                                        ? "none"
+                                        : null,
+                                  }}
                                 >
-                                  {attribute?.type === "text"
-                                    ? item.displayValue
+                                  {cartItem?.attribute?.type === "text"
+                                    ? item?.displayValue
                                     : null}
                                 </button>
                               </div>
@@ -79,9 +115,17 @@ const Modal = ({ setShowModal }) => {
                       ))}
                     </div>
                     <div className="quantity--buttons">
-                      <button>+</button>
-                      {getCartTotal()}
-                      <button>-</button>
+                      <button
+                        onClick={() => toogleItemQuantity(cartItem.id, "inc")}
+                      >
+                        +
+                      </button>
+                      {cartItem.quantity}
+                      <button
+                        onClick={() => toogleItemQuantity(cartItem.id, "dec")}
+                      >
+                        -
+                      </button>
                     </div>
                   </div>
                   <div className="image">
@@ -89,14 +133,18 @@ const Modal = ({ setShowModal }) => {
                   </div>
                 </div>
               ))}
-            <div className="total--amount">
-              <h6>Total</h6>
-              <h6>value</h6>
-            </div>
-            <div className="buttons--container">
-              <button className="view--bag">VIEW BAG</button>
-              <button className="checkout">CHECKOUT</button>
-            </div>
+            {cartItems.length >= 1 && (
+              <>
+                <div className="total--amount">
+                  <h6>Total</h6>
+                  <h6>{getTotalPrice()}</h6>
+                </div>
+                <div className="buttons--container">
+                  <button className="view--bag">VIEW BAG</button>
+                  <button className="checkout">CHECKOUT</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
