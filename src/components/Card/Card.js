@@ -58,17 +58,3 @@ const Card = ({ data }) => {
 };
 
 export default Card;
-// // import React, { Component } from "react";
-
-// // class Card extends Component {
-
-// //   render() {
-// //     return (
-// //       <>
-// //
-
-// // export default Card;
-
-// //create a button then have the image inside then place the button absolute and the parent to position relative then
-// //on default display none then on hover of the card  display the button
-// // then style how it looks

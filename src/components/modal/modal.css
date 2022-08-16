@@ -19,7 +19,7 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
   margin: 15px 0;
 }
 .header {
@@ -68,8 +68,8 @@
   color: white;
 }
 .button--sizes > button {
-  width: 20px;
-  height: 20px;
+  width: 5px;
+  height: 5px;
 }
 .cart--header {
   margin-bottom: 10px;
@@ -111,5 +111,27 @@
 }
 .name--price > h6 {
   font-size: 14px;
-  margin-top: 5px;
+}
+.button--size {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.attribute--names {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.button--size > button {
+  height: 30px;
+  width: 30px;
+  color: #1d1f22;
+  font-size: 12px;
+}
+.attribute {
+  margin: 5px 0;
+}
+.values--button {
+  background-color: white;
+  border: 1px solid #1d1f22;
 }

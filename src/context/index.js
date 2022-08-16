@@ -1,13 +1,12 @@
 import { useQuery } from "@apollo/client";
 import { createContext, useState, useEffect } from "react";
-import { CARD_PRODUCTS, CATEGORIES } from "../services/data";
+import { CARD_PRODUCTS } from "../services/data";
 
 //create global state
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
   const [price, setPrice] = useState({
     currency: {
       symbol: "$",
@@ -65,7 +64,6 @@ const AppProvider = ({ children }) => {
   const toogleItemQuantity = (id, value) => {
     const newCart = localStorage.getItem("cart");
     const cartItem = JSON.parse(newCart);
-    console.log(cartItem);
 
     foundProduct = cartItem.find((item) => item.id === id);
     const newCartItems = cartItem.filter((item) => item.id !== id);
@@ -88,7 +86,7 @@ const AppProvider = ({ children }) => {
         );
       }
     } else if (value === "dec") {
-      if (foundProduct) {
+      if (foundProduct.quantity > 1) {
         setCart([
           ...newCartItems,
           { ...foundProduct, quantity: foundProduct.quantity - 1 },
@@ -111,13 +109,11 @@ const AppProvider = ({ children }) => {
   const addItem = (product) => {
     //first lets create a copy of our cart so that we don't mess up the original array
     const cartCopy = [...cart];
+
     //finding the item if it exist in the array
     let findExistingProduct = cartCopy.find((item) => item?.id === product?.id);
+
     //if the item exist i want to increase its quantity else spread that product and set the quantity to 1
-    setTotalPrice(
-      (prevTotalPrice) =>
-        prevTotalPrice + product?.prices?.amount * product.quantity
-    );
     if (findExistingProduct) {
       findExistingProduct.quantity++;
     } else {
@@ -141,14 +137,13 @@ const AppProvider = ({ children }) => {
   };
 
   //get total price of the cart items
-  const getTotalPrice = () => {
-    return cart.reduce(
-      (previous, current) =>
-        previous + current.prices[0].amount * current.quantity,
-      0
-    );
-  };
-  
+  const getTotalPrice = cart
+    .reduce(function (previousValue, currentValue) {
+      return (
+        previousValue + currentValue.prices[0].amount * currentValue.quantity
+      );
+    }, 0)
+    .toFixed(2);
 
   return (
     <AppContext.Provider
@@ -159,7 +154,6 @@ const AppProvider = ({ children }) => {
         getCartTotalItems,
         price,
         changeCurrency,
-        totalPrice,
         toogleItemQuantity,
         getTotalPrice,
       }}
