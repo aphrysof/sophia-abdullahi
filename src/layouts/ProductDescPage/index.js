@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./style.css";
 import { AppContext } from "../../context";
+import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
-const Index = (props) => {
+const Index = ({ data }) => {
   const [attributes, setAttributes] = useState([]);
-  const { addItem, price, quantity } = useContext(AppContext);
+  const { addItem, quantity } = useContext(AppContext);
 
+  const { price } = useCurrencyPrice(data);
   useEffect(() => {
-    setAttributes(props.attributes);
-  }, [props.attributes]);
+    setAttributes(data.attributes);
+  }, [data.attributes]);
 
-  const images = props.data?.gallery;
-  const product = props.data;
+  const images = data.gallery;
+  const product = data;
 
   return (
     <div className="container--pdp">
@@ -31,8 +33,8 @@ const Index = (props) => {
           />
         </div>
         <div className="product--description">
-          <h2>{props.data?.brand}</h2>
-          <p>{props.data?.name}</p>
+          <h2>{data?.brand}</h2>
+          <p>{data?.name}</p>
           {attributes &&
             attributes.map((attribute) => (
               <div key={attribute.id}>
@@ -58,7 +60,7 @@ const Index = (props) => {
             <h5>PRICES</h5>
             <p>
               {" "}
-              {product.prices[0].currency?.symbol} {product.prices[0].amount}
+              {price.currency.symbol} {price.amount}
             </p>
           </div>
           <div className="addto_cart_btn">

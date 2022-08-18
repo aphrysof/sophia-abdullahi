@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./card.css";
 import Cart from "../../assets/Vector.png";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../context";
+import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
 const Product = ({ data }) => {
-  const { price } = useContext(AppContext);
 
   const navigate = useNavigate();
 
+  const { price } = useCurrencyPrice(data);
   return (
     <div className="card--container">
       <div className="content--container">
@@ -30,7 +30,7 @@ const Product = ({ data }) => {
           <p className="product--name">{data.name}</p>
           {}
           <p className="product--price">
-            {data.prices[0].currency?.symbol} {data.prices[0].amount}
+            {price.currency?.symbol} {price.amount}
           </p>
         </div>
       </div>

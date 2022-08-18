@@ -11,6 +11,7 @@ export const CARD_PRODUCTS = gql`
         prices {
           currency {
             symbol
+            label
           }
           amount
         }
@@ -72,6 +73,7 @@ export const CATEGORIES = gql`
         prices {
           currency {
             symbol
+            label
           }
           amount
         }
@@ -92,6 +94,7 @@ export const PRODUCT_DETAILS = gql`
       prices {
         currency {
           symbol
+          label
         }
         amount
       }

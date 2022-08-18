@@ -1,73 +1,45 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import "./style.css";
 import { AppContext } from "../../context";
-import { CardProduct } from "../../components";
+import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
-const Cart = () => {
-  const { cart, price, toogleItemQuantity, getCartTotalItems, getTotalPrice } =
+const Cart = ({ data }) => {
+  const { toogleItemQuantity, getCartTotalItems, getTotalPrice } =
     useContext(AppContext);
 
-  const [cartItems, setCartItems] = useState([]);
+  const { price } = useCurrencyPrice(data);
 
-  useEffect(() => {
-    if (cart) {
-      const products = cart.map((product) => {
-        if (product.attributes) {
-          const attribute = product.attributes.find(
-            (attr) => attr.type === "swatch"
-          );
-          const texts = product.attributes.find((attr) => attr.type === "text");
-          return {
-            ...product,
-            colors: attribute ? attribute.items : [],
-            text: texts ? texts.items : [],
-          };
-        } else {
-          return {
-            ...product,
-            colors: [],
-            text: [],
-          };
-        }
-      });
-      setCartItems(products);
-    } else {
-      setCartItems([]);
-    }
-  }, [cart]);
+  const attributes = data.attributes;
+
 
   return (
     <>
-    <h1>CART</h1>
-    <div className="cart--container">
-      {cartItems.map((product) => (
-        <div className="cart--item" key={product.id}>
+      <div className="cart--container">
+        <div className="cart--item">
           <div className="item--detail">
             <div className="items--desc">
-              <h3>{product.brand}</h3>
-              <h4>{product.name}</h4>
+              <h3>{data.brand}</h3>
+              <h4>{data.name}</h4>
               <h5>
-                {product.prices[0].currency?.symbol} {product.prices[0].amount}
+                {price.currency?.symbol} {price.amount}
               </h5>
-              {product?.attributes?.map((attribute) => (
+              {attributes.map((attribute) => (
                 <div key={attribute?.id} className="cart--attribute">
-                  <h6 className="cart--name">{attribute?.name}</h6>
+                  <h6 className="cart--name">{attribute.name}</h6>
                   <div className="cart--button">
                     {attribute.type === "swatch"
-                      ? product.colors.map((item) => (
+                      ? attribute.items.map((item) => (
                           <button
                             key={item.id}
                             style={{
-                              backgroundColor: product.colors
-                                ? item.value
-                                : null,
-                              border: product.colors ? "none" : null,
+                              backgroundColor: item.value,
+                              border: "none",
                             }}
                           ></button>
                         ))
-                      : product.text.map((item) => (
+                      : attribute.items.map((item) => (
                           <button key={item.id} className="button--values">
-                            {product.text ? item.value : null}
+                            {item.displayValue}
                           </button>
                         ))}
                   </div>
@@ -76,37 +48,20 @@ const Cart = () => {
             </div>
 
             <div className="quantity--buttons">
-              <button onClick={() => toogleItemQuantity(product.id, "inc")}>
+              <button onClick={() => toogleItemQuantity(data.id, "inc")}>
                 +
               </button>
-              {product.quantity}
-              <button onClick={() => toogleItemQuantity(product.id, "dec")}>
+              {data.quantity}
+              <button onClick={() => toogleItemQuantity(data.id, "dec")}>
                 -
               </button>
             </div>
           </div>
           <div className="item--image">
-            <img src={product?.gallery[0]} alt="img" />
+            <img src={data.gallery[0]} alt="img" />
           </div>
         </div>
-      ))}
-      <div
-        className="cart--total"
-        onClick={() => console.log("thank you for shopping with us")}
-      >
-        <p>
-          Quantity:<span>{getCartTotalItems()}</span>
-        </p>
-        <p>
-          Total:
-          <span>
-            {price.currency.symbol}
-            {getTotalPrice}
-          </span>
-        </p>
-        <button>order</button>
       </div>
-    </div>
     </>
   );
 };

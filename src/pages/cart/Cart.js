@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../context";
+import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 import { CartLayout } from "../../layouts/index";
 
 const Cart = () => {
+  const { cart, getTotalPrice, getCartTotalItems } = useContext(AppContext);
+
+  // const { price } = useCurrencyPrice();
+
+  const handleClick = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <>
-      <CartLayout />
+    <h1>CART</h1>
+      {cart &&
+        cart.map((product) => <CartLayout key={product.id} data={product} />)}
+      <div className="cart--total" onClick={handleClick}>
+        <p>
+          Quantity:<span>{getCartTotalItems()}</span>
+        </p>
+        <p>
+          Total:
+          <span>
+            {/* {price.currency.symbol} */}
+            {getTotalPrice}
+          </span>
+        </p>
+        <button>order</button>
+      </div>
     </>
   );
 };

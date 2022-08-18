@@ -1,51 +1,30 @@
-import { useQuery } from "@apollo/client";
 import { createContext, useState, useEffect } from "react";
-import { CARD_PRODUCTS } from "../services/data";
+import { useQuery } from "@apollo/client";
+import { PRICES } from "../services/data";
 
 //create global state
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
+  const { data } = useQuery(PRICES);
+  const currency = data.currencies.map((item) => item.label);
+
   const [cart, setCart] = useState([]);
-  const [price, setPrice] = useState({
-    currency: {
-      symbol: "$",
-    },
-    amount: 0,
-  });
+  const [currentCurrency, setCurrentCurrency] = useState(currency[0]);
 
-  //fetching data
-  const { data } = useQuery(CARD_PRODUCTS);
-  const allProducts = data?.category?.products;
+  useEffect(() => {
+    const savedCurrency = localStorage.getItem("currency");
+    if (savedCurrency) {
+      setCurrentCurrency(savedCurrency);
+    }
+  }, []);
 
-  const changeCurrency = (e) => {
-    const { value } = e.target;
-    console.log("checking input", e.target.value);
-
-    // const found = allProducts?.map((product) => {
-    //   return {
-    //     ...product,
-    //     prices: product.prices.filter(
-    //       (price) => price.currency.symbol === value
-    //     ),
-    //   };
-    // });
-    // const newProducts = found;
-    // console.log(newProducts);
-    // setProducts(newProducts);
-
-    allProducts?.map((product) => {
-      if (product) {
-        const found = product?.prices.find(
-          (price) => price?.currency?.symbol === value
-        );
-        if (found) {
-          setPrice(found);
-          console.log(found);
-        }
-      }
-    });
-  };
+  //  const fromIndex = currency.indexOf(savedCurrency);
+  //  const toIndex = 0;
+  //  const element = currency.splice(fromIndex, 1)[0];
+  //  currency.splice(toIndex, 0, element);
+  //  console.log(currency);
+  //  setCurrentCurrency(currency[0]);
 
   //useffect to get product from the localstorage
   useEffect(() => {
@@ -152,10 +131,11 @@ const AppProvider = ({ children }) => {
         setCart,
         addItem,
         getCartTotalItems,
-        price,
-        changeCurrency,
+        currentCurrency,
+        setCurrentCurrency,
         toogleItemQuantity,
         getTotalPrice,
+        currency,
       }}
     >
       {children}

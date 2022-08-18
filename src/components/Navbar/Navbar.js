@@ -7,14 +7,45 @@ import { AppContext } from "../../context";
 import { Modal } from "../index";
 
 const Navbar = ({ data }) => {
-  const { getCartTotalItems, changeCurrency } =
+  const { getCartTotalItems, setCurrentCurrency, currentCurrency } =
     useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
+  const [currencies, setCurrentCurrencies] = useState([]);
 
-  //re-render the notifications everytime the cart array changes
-  // useEffect(() => {
-  //   setNotifications(getCartTotal);
-  // }, [getCartTotal]);
+  //create a variable then assign it to the destructured data;
+  const currArray = data.currencies;
+
+  useEffect(() => {
+    //get value from localStorage
+    const value = localStorage.getItem("currency");
+    if (data) {
+      //find the object based on the value
+      const newCurrencies = data.currencies.find(
+        (item) => item.label === value
+      );
+      console.log(newCurrencies);
+      //find if that object exist in the array
+      const found = data.currencies.find(
+        (element) => element === newCurrencies
+      );
+      if (found) {
+        // create a copy of the variable created
+        const currCopy = [...currArray];
+        const fromIndex = currCopy.indexOf(found);
+        const toIndex = 0;
+        //use splice method to remove the object
+        const element = currCopy.splice(fromIndex, 1)[0];
+        //use splice to insert that particular object at index 0
+        currCopy.splice(toIndex, 0, element);
+
+        setCurrentCurrencies(currCopy);
+      }
+    }
+  }, [data, currArray]);
+
+  useEffect(() => {
+    console.log(currentCurrency);
+  }, [currentCurrency]);
 
   const openModal = () => {
     setShowModal(!showModal);
@@ -34,12 +65,19 @@ const Navbar = ({ data }) => {
           <img src={scandiweb} alt="logo" />
         </div>
         <div className="currency--cart">
-          <select onChange={(e) => changeCurrency(e)} defaultValue={"$"}>
-            <option value="$">$ USD</option>
-            <option value="£">£ GBP</option>
-            <option value="A$">A$ AUD</option>
-            <option value="¥">¥ JPY</option>
-            <option value="₽">₽ RUB</option>
+          <select
+            onChange={(e) => {
+              setCurrentCurrency(e.target.value);
+              localStorage.setItem("currency", e.target.value);
+            }}
+            defaultValue={currentCurrency}
+          >
+            {currencies &&
+              currencies.map((option, index) => (
+                <option key={index} value={option.label}>
+                  {option.symbol} {option.label}
+                </option>
+              ))}
           </select>
           <div className="shopping--cart">
             <div className="cart--button" onClick={openModal}>
@@ -55,3 +93,9 @@ const Navbar = ({ data }) => {
 };
 
 export default Navbar;
+
+// <option value="USD">$ USD</option>
+//       <option value="GBP">£ GBP</option>
+//       <option value="AUD">A$ AUD</option>
+//       <option value="JPY">¥ JPY</option>
+//       <option value="RUB">₽ RUB</option>
