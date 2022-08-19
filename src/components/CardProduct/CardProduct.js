@@ -3,12 +3,11 @@ import "./style.css";
 import { AppContext } from "../../context";
 import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
-const CardProduct = ({ data }) => {
+const CardProduct = ({ data, index }) => {
   const { toogleItemQuantity } = useContext(AppContext);
   //set state for cartItems
 
   const attributes = data.attributes;
-  console.log(attributes);
 
   const { price } = useCurrencyPrice(data);
 
@@ -42,7 +41,7 @@ const CardProduct = ({ data }) => {
                       ))
                     : attribute.items.map((item) => (
                         <button key={item.id} className="values--button">
-                          {item.displayValue}
+                          {item.value}
                         </button>
                       ))}
                 </div>

@@ -23,7 +23,6 @@ const Navbar = ({ data }) => {
       const newCurrencies = data.currencies.find(
         (item) => item.label === value
       );
-      console.log(newCurrencies);
       //find if that object exist in the array
       const found = data.currencies.find(
         (element) => element === newCurrencies
@@ -40,16 +39,15 @@ const Navbar = ({ data }) => {
 
         setCurrentCurrencies(currCopy);
       }
+      //if the localstorage is empty setCurrenctCurrencies to the original array
+      else if (value === null) {
+        setCurrentCurrencies(currArray);
+      }
     }
   }, [data, currArray]);
 
-  useEffect(() => {
-    console.log(currentCurrency);
-  }, [currentCurrency]);
-
   const openModal = () => {
     setShowModal(!showModal);
-    console.log("open modal");
   };
 
   return (
@@ -93,9 +91,3 @@ const Navbar = ({ data }) => {
 };
 
 export default Navbar;
-
-// <option value="USD">$ USD</option>
-//       <option value="GBP">£ GBP</option>
-//       <option value="AUD">A$ AUD</option>
-//       <option value="JPY">¥ JPY</option>
-//       <option value="RUB">₽ RUB</option>

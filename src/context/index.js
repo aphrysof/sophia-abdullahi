@@ -19,13 +19,6 @@ const AppProvider = ({ children }) => {
     }
   }, []);
 
-  //  const fromIndex = currency.indexOf(savedCurrency);
-  //  const toIndex = 0;
-  //  const element = currency.splice(fromIndex, 1)[0];
-  //  currency.splice(toIndex, 0, element);
-  //  console.log(currency);
-  //  setCurrentCurrency(currency[0]);
-
   //useffect to get product from the localstorage
   useEffect(() => {
     const item = localStorage.getItem("cart");
@@ -39,47 +32,34 @@ const AppProvider = ({ children }) => {
 
   //updating item quantity in cart function
   //updating the quantity based on the id of the product and the value of the button either increment or decrement
-  let foundProduct;
+
   const toogleItemQuantity = (id, value) => {
     const newCart = localStorage.getItem("cart");
     const cartItem = JSON.parse(newCart);
+    //create a copy of the array
+    const cartCopy = cartItem.slice();
 
-    foundProduct = cartItem.find((item) => item.id === id);
-    const newCartItems = cartItem.filter((item) => item.id !== id);
+    //first we need to findIndex of the product based on the id
+    const itemIndex = cartCopy.findIndex((product) => product.id === id);
+
+    //then create a variable and set the array against the objects index
+    let newItem = cartCopy[itemIndex];
 
     if (value === "inc") {
-      if (foundProduct) {
-        setCart([
-          ...newCartItems,
-          { ...foundProduct, quantity: foundProduct.quantity + 1 },
-        ]);
-        localStorage.setItem(
-          "cart",
-          JSON.stringify([
-            ...newCartItems,
-            {
-              ...foundProduct,
-              quantity: foundProduct.quantity + 1,
-            },
-          ])
-        );
+      if (newItem) {
+        //increase the objects quantity by one
+        newItem.quantity++;
+        //then remove the object and replace it with the newItem
+        cartCopy.splice(itemIndex, 1, newItem);
+        setCart(cartCopy);
+        localStorage.setItem("cart", JSON.stringify(cartCopy));
       }
     } else if (value === "dec") {
-      if (foundProduct.quantity > 1) {
-        setCart([
-          ...newCartItems,
-          { ...foundProduct, quantity: foundProduct.quantity - 1 },
-        ]);
-        localStorage.setItem(
-          "cart",
-          JSON.stringify([
-            ...newCartItems,
-            {
-              ...foundProduct,
-              quantity: foundProduct.quantity - 1,
-            },
-          ])
-        );
+      if (newItem.quantity > 1) {
+        newItem.quantity--;
+        cartCopy.splice(itemIndex, 1, newItem);
+        setCart(cartCopy);
+        localStorage.setItem("cart", JSON.stringify(cartCopy));
       }
     }
   };
@@ -144,3 +124,7 @@ const AppProvider = ({ children }) => {
 };
 
 export { AppProvider, AppContext };
+
+//What to work on next;
+//getting the total prices
+//then updating per index of the product- starting

@@ -40,7 +40,10 @@ const Modal = ({ setShowModal }) => {
                 </Link>
               </div>
             )}
-            {cart.length >= 1 && cart.map((product) =>  <CardProduct key = {product.id} data = {product}/>)}
+            {cart.length >= 1 &&
+              cart.map((product, index) => (
+                <CardProduct key={product.id} data={product}  />
+              ))}
 
             {cart.length >= 1 && (
               <>

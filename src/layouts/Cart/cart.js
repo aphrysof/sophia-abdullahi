@@ -4,7 +4,7 @@ import { AppContext } from "../../context";
 import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
 const Cart = ({ data }) => {
-  const { toogleItemQuantity, getCartTotalItems, getTotalPrice } =
+  const { toogleItemQuantity } =
     useContext(AppContext);
 
   const { price } = useCurrencyPrice(data);
