@@ -1,15 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./style.css";
 import { AppContext } from "../../context";
 import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 
-const CardProduct = ({ data, index }) => {
-  const { toogleItemQuantity } = useContext(AppContext);
+const CardProduct = ({ data }) => {
+  const { toogleItemQuantity, cart, currentCurrency } = useContext(AppContext);
   //set state for cartItems
 
   const attributes = data.attributes;
 
   const { price } = useCurrencyPrice(data);
+
+  useEffect(() => {
+    const cartCopy = [...cart];
+    const itemIndex = cartCopy.findIndex((product) => product.id === data.id);
+    const newProduct = cartCopy[itemIndex];
+    if (newProduct) {
+      newProduct.total = price.amount;
+      cartCopy.splice(itemIndex, 1, newProduct);
+      console.log(cartCopy);
+      localStorage.setItem("cart", JSON.stringify(cartCopy));
+    }
+  }, [cart, price.amount, data, currentCurrency]);
 
   // close the modal when clicking outside the modal.
   return (
@@ -67,28 +79,3 @@ const CardProduct = ({ data, index }) => {
 };
 
 export default CardProduct;
-
-//  {
-//    data?.attributes?.map((attribute) => (
-//      <div key={attribute?.id} className="attribute">
-//        <h6 className="attribute--names">{attribute?.name}</h6>
-//        <div className="button--size">
-//          {attribute.type === "swatch"
-//            ? cartItem.colors.map((item) => (
-//                <button
-//                  key={item.id}
-//                  style={{
-//                    backgroundColor: data.colors ? item.value : null,
-//                    border: data.colors ? "none" : null,
-//                  }}
-//                ></button>
-//              ))
-//            : cartItem.text.map((item) => (
-//                <button key={item.id} className="values--button">
-//                  {cartItem.text ? item.value : null}
-//                </button>
-//              ))}
-//        </div>
-//      </div>
-//    ));
-//  }

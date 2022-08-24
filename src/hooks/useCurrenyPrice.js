@@ -17,8 +17,7 @@ const useCurrencyPrice = (product) => {
         (price) => price.currency?.label === currentCurrency
       );
       if (found) {
-        setPrice(found);
-       
+        setPrice(found); 
       }
     }
   }, [product, currentCurrency]);

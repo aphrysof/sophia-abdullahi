@@ -1,17 +1,22 @@
 import { createContext, useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
-import { PRICES } from "../services/data";
+import useCurrencyPrice from "../hooks/useCurrenyPrice";
 
 //create global state
-const AppContext = createContext();
+const AppContext = createContext({ cart: [], currentCurrency: "" });
 
 const AppProvider = ({ children }) => {
-  const { data } = useQuery(PRICES);
-  const currency = data.currencies.map((item) => item.label);
+  const { price } = useCurrencyPrice();
 
   const [cart, setCart] = useState([]);
-  const [currentCurrency, setCurrentCurrency] = useState(currency[0]);
+  const [currentCurrency, setCurrentCurrency] = useState("USD");
+  const [product, setProduct] = useState();
 
+  useEffect(() => {
+    if (cart) {
+    }
+  }, [cart]);
+
+  //update state of the currentCurrency based on the value on the locaLStorage
   useEffect(() => {
     const savedCurrency = localStorage.getItem("currency");
     if (savedCurrency) {
@@ -44,7 +49,6 @@ const AppProvider = ({ children }) => {
 
     //then create a variable and set the array against the objects index
     let newItem = cartCopy[itemIndex];
-
     if (value === "inc") {
       if (newItem) {
         //increase the objects quantity by one
@@ -52,6 +56,7 @@ const AppProvider = ({ children }) => {
         //then remove the object and replace it with the newItem
         cartCopy.splice(itemIndex, 1, newItem);
         setCart(cartCopy);
+
         localStorage.setItem("cart", JSON.stringify(cartCopy));
       }
     } else if (value === "dec") {
@@ -78,7 +83,6 @@ const AppProvider = ({ children }) => {
     } else {
       findExistingProduct = {
         ...product,
-        quantity: 1,
       };
       //then push the product in array
       cartCopy.push(findExistingProduct);
@@ -90,19 +94,27 @@ const AppProvider = ({ children }) => {
     localStorage.setItem("cart", cartProduct);
   };
 
+  //Reduce() is used to return the sum of all the elements in an array
+
   // getting quantity sum total of the cart
   const getCartTotalItems = () => {
     return cart.reduce((sum, { quantity }) => sum + quantity, 0);
   };
 
   //get total price of the cart items
-  const getTotalPrice = cart
-    .reduce(function (previousValue, currentValue) {
-      return (
-        previousValue + currentValue.prices[0].amount * currentValue.quantity
-      );
-    }, 0)
-    .toFixed(2);
+
+  // const getTotal = cart
+  //   .reduce(function (total, currentValue) {
+  //     return total + currentValue.amount * currentValue.quantity;
+  //   }, 0)
+  //   .toFixed(2);
+
+  //lets create a function,  the function takes a parameter
+  const totalPrice = () => {
+    return cart
+      .reduce((total, current) => total + current.total * current.quantity, 0)
+      .toFixed(2);
+  };
 
   return (
     <AppContext.Provider
@@ -114,8 +126,8 @@ const AppProvider = ({ children }) => {
         currentCurrency,
         setCurrentCurrency,
         toogleItemQuantity,
-        getTotalPrice,
-        currency,
+        // getTotal,
+        totalPrice,
       }}
     >
       {children}
@@ -124,7 +136,3 @@ const AppProvider = ({ children }) => {
 };
 
 export { AppProvider, AppContext };
-
-//What to work on next;
-//getting the total prices
-//then updating per index of the product- starting

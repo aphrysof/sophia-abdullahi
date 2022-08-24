@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import "./modal.css";
 import { AppContext } from "../../context";
 import { Link, useNavigate } from "react-router-dom";
-import { CardProduct } from "../index";
+import { CardProduct, TotalPrice } from "../index";
 
 const Modal = ({ setShowModal }) => {
-  const { cart, getCartTotalItems, getTotalPrice } = useContext(AppContext);
+  const { cart, getCartTotalItems, totalPrice } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -41,15 +41,17 @@ const Modal = ({ setShowModal }) => {
               </div>
             )}
             {cart.length >= 1 &&
-              cart.map((product, index) => (
-                <CardProduct key={product.id} data={product}  />
+              cart.map((product, id) => (
+                <>
+                  <CardProduct key={id} data={product} />
+                </>
               ))}
 
             {cart.length >= 1 && (
               <>
                 <div className="total--amount">
                   <h6>Total</h6>
-                  <h6>{getTotalPrice}</h6>
+                  <h6>{totalPrice()}</h6>
                 </div>
                 <div className="buttons--container">
                   <button

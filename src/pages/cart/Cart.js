@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AppContext } from "../../context";
-import useCurrencyPrice from "../../hooks/useCurrenyPrice";
 import { CartLayout } from "../../layouts/index";
+import { TotalPrice } from "../../components";
 
 const Cart = () => {
   const { cart, getTotalPrice, getCartTotalItems } = useContext(AppContext);
@@ -14,7 +14,7 @@ const Cart = () => {
   };
   return (
     <>
-    <h1>CART</h1>
+      <h1>CART</h1>
       {cart &&
         cart.map((product) => <CartLayout key={product.id} data={product} />)}
       <div className="cart--total" onClick={handleClick}>
@@ -25,7 +25,7 @@ const Cart = () => {
           Total:
           <span>
             {/* {price.currency.symbol} */}
-            {getTotalPrice}
+            <TotalPrice />
           </span>
         </p>
         <button>order</button>
